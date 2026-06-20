@@ -21,7 +21,9 @@ public class WorldGuardExtended extends JavaPlugin {
         worldGuardPlugin = (WorldGuardPlugin) Bukkit.getPluginManager().getPlugin("WorldGuard");
 
         FlagRegistry flagRegistry = worldGuard.getFlagRegistry();
+        flagRegistry.register(Flags.DISABLE_DOORS);
         flagRegistry.register(Flags.DISABLE_TRAPDOORS);
+        flagRegistry.register(Flags.DISABLE_FENCE_GATES);
     }
 
     @Override

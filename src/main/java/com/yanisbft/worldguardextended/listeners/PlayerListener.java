@@ -5,10 +5,14 @@ import com.sk89q.worldedit.util.Location;
 import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
+import com.sk89q.worldguard.protection.flags.BooleanFlag;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.session.SessionManager;
 import com.yanisbft.worldguardextended.flags.Flags;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.type.Door;
+import org.bukkit.block.data.type.Gate;
 import org.bukkit.block.data.type.TrapDoor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -47,20 +51,22 @@ public class PlayerListener implements Listener {
             return;
         }
 
-        handleTrapdoors(event, localPlayer, clickedBlock);
+        handleBlock(event, localPlayer, clickedBlock, Door.class, Flags.DISABLE_DOORS);
+        handleBlock(event, localPlayer, clickedBlock, TrapDoor.class, Flags.DISABLE_TRAPDOORS);
+        handleBlock(event, localPlayer, clickedBlock, Gate.class, Flags.DISABLE_FENCE_GATES);
     }
 
-    private void handleTrapdoors(PlayerInteractEvent event, LocalPlayer player, Block block) {
-        if (!(block.getBlockData() instanceof TrapDoor)) {
+    private void handleBlock(PlayerInteractEvent event, LocalPlayer player, Block block, Class<? extends BlockData> blockType, BooleanFlag flag) {
+        if (!blockType.isInstance(block.getBlockData())) {
             return;
         }
 
         Location blockLocation = BukkitAdapter.adapt(block.getLocation());
         ApplicableRegionSet regions = regionContainer.createQuery().getApplicableRegions(blockLocation);
 
-        Boolean disableTrapdoors = regions.queryValue(player, Flags.DISABLE_TRAPDOORS);
-        if (disableTrapdoors != null) {
-            event.setCancelled(disableTrapdoors);
+        Boolean disabled = regions.queryValue(player, flag);
+        if (disabled != null) {
+            event.setCancelled(disabled);
         }
     }
 }
