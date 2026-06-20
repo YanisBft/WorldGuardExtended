@@ -1,0 +1,12 @@
+name: WorldGuardExtended
+description: Adds more modern and specific flags to WorldGuard
+version: 1.0.0
+authors:
+  - YanisBft
+website: https://github.com/YanisBft/WorldGuardExtended
+main: com.yanisbft.worldguardextended.WorldGuardExtended
+api-version: "26.1.2"
+dependencies:
+  server:
+    WorldGuard:
+      required: true
