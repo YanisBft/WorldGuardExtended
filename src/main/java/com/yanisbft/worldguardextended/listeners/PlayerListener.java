@@ -11,9 +11,7 @@ import com.sk89q.worldguard.session.SessionManager;
 import com.yanisbft.worldguardextended.flags.Flags;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
-import org.bukkit.block.data.type.Door;
-import org.bukkit.block.data.type.Gate;
-import org.bukkit.block.data.type.TrapDoor;
+import org.bukkit.block.data.type.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -51,9 +49,11 @@ public class PlayerListener implements Listener {
             return;
         }
 
+        handleBlock(event, localPlayer, clickedBlock, DaylightDetector.class, Flags.DISABLE_DAYLIGHT_DETECTORS);
+        handleBlock(event, localPlayer, clickedBlock, DecoratedPot.class, Flags.DISABLE_DECORATED_POTS);
         handleBlock(event, localPlayer, clickedBlock, Door.class, Flags.DISABLE_DOORS);
-        handleBlock(event, localPlayer, clickedBlock, TrapDoor.class, Flags.DISABLE_TRAPDOORS);
         handleBlock(event, localPlayer, clickedBlock, Gate.class, Flags.DISABLE_FENCE_GATES);
+        handleBlock(event, localPlayer, clickedBlock, TrapDoor.class, Flags.DISABLE_TRAPDOORS);
     }
 
     private void handleBlock(PlayerInteractEvent event, LocalPlayer player, Block block, Class<? extends BlockData> blockType, BooleanFlag flag) {
