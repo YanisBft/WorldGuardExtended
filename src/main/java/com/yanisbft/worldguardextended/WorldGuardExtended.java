@@ -6,6 +6,7 @@ import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.session.SessionManager;
 import com.yanisbft.worldguardextended.flags.Flags;
+import com.yanisbft.worldguardextended.listeners.EntityListener;
 import com.yanisbft.worldguardextended.listeners.PlayerListener;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -21,6 +22,7 @@ public class WorldGuardExtended extends JavaPlugin {
         worldGuardPlugin = (WorldGuardPlugin) Bukkit.getPluginManager().getPlugin("WorldGuard");
 
         FlagRegistry flagRegistry = worldGuard.getFlagRegistry();
+        flagRegistry.register(Flags.CHICKEN_LAYING);
         flagRegistry.register(Flags.DISABLE_DAYLIGHT_DETECTORS);
         flagRegistry.register(Flags.DISABLE_DECORATED_POTS);
         flagRegistry.register(Flags.DISABLE_DOORS);
@@ -33,6 +35,7 @@ public class WorldGuardExtended extends JavaPlugin {
         RegionContainer regionContainer = worldGuard.getPlatform().getRegionContainer();
         SessionManager sessionManager = worldGuard.getPlatform().getSessionManager();
 
+        Bukkit.getPluginManager().registerEvents(new EntityListener(regionContainer), this);
         Bukkit.getPluginManager().registerEvents(new PlayerListener(worldGuardPlugin, regionContainer, sessionManager), this);
     }
 }
