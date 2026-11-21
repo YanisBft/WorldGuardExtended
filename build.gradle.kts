@@ -15,7 +15,7 @@ repositories {
 dependencies {
     paperweight.paperDevBundle("26.1.2.build.+")
 
-    compileOnly("com.sk89q.worldguard:worldguard-core:7.0.17")
+    compileOnly("com.sk89q.worldguard:worldguard-core:7.0.21")
     compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.17")
 }
 
